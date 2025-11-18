@@ -1,0 +1,383 @@
+{
+  "Bacterial Leaf Blight": {
+    "disease_name": "Bacterial Leaf Blight",
+    "scientific_name": "Xanthomonas oryzae pv. oryzae",
+    "causes": [
+      "Infected seeds",
+      "Contaminated irrigation water",
+      "Plant debris from previous crops",
+      "High nitrogen fertilizer application",
+      "Warm temperatures (25-30°C) with high humidity",
+      "Wind-driven rain spreading bacteria"
+    ],
+    "symptoms": [
+      "Water-soaked lesions on leaf margins",
+      "Lesions turn yellow and then white or gray",
+      "Milky dew droplets on lesions in morning",
+      "Wilting and drying of leaves",
+      "Yellowing and drying of entire plant in severe cases"
+    ],
+    "prevention_methods": [
+      "Use certified disease-free seeds",
+      "Practice field sanitation",
+      "Avoid excessive nitrogen fertilization",
+      "Maintain proper water management",
+      "Practice crop rotation with non-host crops"
+    ],
+    "early_preventive_practices": [
+      "Seed treatment with hot water (52-54°C for 10 minutes)",
+      "Use resistant varieties like IR20, IR42, IR50",
+      "Avoid working in fields when plants are wet",
+      "Ensure proper drainage to avoid waterlogging",
+      "Remove and destroy infected plant material"
+    ],
+    "organic_cures": [
+      {
+        "name": "Copper-based Fungicides",
+        "type": "Bactericide",
+        "examples": ["Bordeaux mixture", "Copper oxychloride"],
+        "application": "Spray at first symptom appearance, repeat every 7-10 days",
+        "cost": "Low to Medium"
+      },
+      {
+        "name": "Plant Extracts",
+        "type": "Bio-pesticide",
+        "examples": ["Neem leaf extract", "Garlic extract"],
+        "application": "Spray every 10-15 days as preventive measure",
+        "cost": "Very Low"
+      },
+      {
+        "name": "Bio-control Agents",
+        "type": "Biological",
+        "examples": ["Pseudomonas fluorescens", "Bacillus subtilis"],
+        "application": "Seed treatment and soil application",
+        "cost": "Low"
+      }
+    ],
+    "chemical_pesticides": [
+      {
+        "name": "Streptomycin sulfate",
+        "dosage": "500-1000 ppm",
+        "application": "Spray at disease onset",
+        "safety_period": "15 days",
+        "cost": "Medium"
+      },
+      {
+        "name": "Copper hydroxide",
+        "dosage": "2g per liter of water",
+        "application": "Spray every 10-15 days",
+        "safety_period": "7 days",
+        "cost": "Low"
+      }
+    ],
+    "cultural_controls": [
+      "Avoid flood irrigation",
+      "Maintain balanced fertilization",
+      "Remove weed hosts",
+      "Practice fallowing during off-season",
+      "Use wide spacing between plants"
+    ]
+  },
+  "Brown Spot": {
+    "disease_name": "Brown Spot",
+    "scientific_name": "Cochliobolus miyabeanus",
+    "causes": [
+      "Fungus in infected seeds and crop debris",
+      "Nutrient deficiency especially silicon and potassium",
+      "High humidity and moderate temperatures",
+      "Poor soil conditions",
+      "Water stress"
+    ],
+    "symptoms": [
+      "Small, circular brown spots on leaves",
+      "Spots may have yellow halos",
+      "Lesions on leaf sheaths and grains",
+      "Spots coalesce to form large patches",
+      "Discolored and spotted grains"
+    ],
+    "prevention_methods": [
+      "Use disease-free seeds",
+      "Maintain proper soil fertility",
+      "Practice crop rotation",
+      "Ensure balanced nutrition",
+      "Destroy infected crop residues"
+    ],
+    "early_preventive_practices": [
+      "Seed treatment with fungicides",
+      "Soil testing and proper fertilization",
+      "Use resistant varieties",
+      "Maintain optimal plant population",
+      "Avoid water stress"
+    ],
+    "organic_cures": [
+      {
+        "name": "Biological Control Agents",
+        "type": "Bio-fungicide",
+        "examples": ["Trichoderma species", "Pseudomonas fluorescens"],
+        "application": "Seed treatment and soil application",
+        "cost": "Low"
+      },
+      {
+        "name": "Botanical Extracts",
+        "type": "Organic",
+        "examples": ["Neem leaf extract", "Eucalyptus oil"],
+        "application": "Foliar spray every 15 days",
+        "cost": "Very Low"
+      },
+      {
+        "name": "Organic Amendments",
+        "type": "Soil conditioner",
+        "examples": ["Farmyard manure", "Compost"],
+        "application": "Soil application before planting",
+        "cost": "Very Low"
+      }
+    ],
+    "chemical_pesticides": [
+      {
+        "name": "Mancozeb",
+        "dosage": "2g per liter of water",
+        "application": "Spray at disease onset, repeat after 15 days",
+        "safety_period": "15 days",
+        "cost": "Low"
+      },
+      {
+        "name": "Carbendazim",
+        "dosage": "1g per liter of water",
+        "application": "Seed treatment and foliar spray",
+        "safety_period": "15 days",
+        "cost": "Low"
+      },
+      {
+        "name": "Chlorothalonil",
+        "dosage": "2g per liter of water",
+        "application": "Spray every 10-15 days",
+        "safety_period": "14 days",
+        "cost": "Medium"
+      }
+    ],
+    "cultural_controls": [
+      "Improve soil organic matter",
+      "Ensure balanced NPK fertilization",
+      "Apply silicon fertilizers",
+      "Practice proper water management",
+      "Use clean planting materials"
+    ]
+  },
+  "Healthy Rice Leaf": {
+    "disease_name": "Healthy Rice Leaf",
+    "scientific_name": "No disease present",
+    "characteristics": [
+      "Vibrant green color without discoloration",
+      "Smooth leaf surface without lesions or spots",
+      "Normal leaf size and shape",
+      "Proper plant growth and development",
+      "No signs of stress or damage"
+    ],
+    "maintenance_practices": [
+      "Continue regular monitoring",
+      "Maintain balanced fertilization",
+      "Ensure proper irrigation",
+      "Practice crop rotation",
+      "Monitor for pest presence"
+    ],
+    "prevention_methods": [
+      "Use certified disease-free seeds",
+      "Practice good field sanitation",
+      "Maintain proper plant spacing",
+      "Implement integrated pest management",
+      "Regular field inspections"
+    ],
+    "optimal_growing_conditions": [
+      "Well-drained fertile soil",
+      "Adequate sunlight exposure",
+      "Proper water management",
+      "Balanced NPK fertilization",
+      "Optimal temperature range (20-35°C)"
+    ],
+    "health_indicators": [
+      "Uniform green coloration",
+      "Vigorous plant growth",
+      "Normal tillering pattern",
+      "Proper panicle development",
+      "Absence of lesions or spots"
+    ],
+    "monitoring_recommendations": [
+      "Weekly visual inspections",
+      "Check for early disease symptoms",
+      "Monitor pest populations",
+      "Assess nutrient status",
+      "Evaluate irrigation effectiveness"
+    ]
+  },
+  "Leaf Blast": {
+    "disease_name": "Leaf Blast",
+    "scientific_name": "Magnaporthe oryzae",
+    "causes": [
+      "Fungal spores in infected seeds",
+      "Infected crop residues",
+      "High humidity (90-100%)",
+      "Moderate temperatures (25-28°C)",
+      "Excessive nitrogen application",
+      "Water stress followed by high moisture"
+    ],
+    "symptoms": [
+      "Diamond-shaped lesions with gray centers and brown borders",
+      "Spots on leaves, nodes, and panicles",
+      "White to gray-green lesions under humid conditions",
+      "Collapse of neck nodes (neck blast)",
+      "White heads with empty grains"
+    ],
+    "prevention_methods": [
+      "Use blast-resistant varieties",
+      "Avoid late planting",
+      "Practice balanced fertilization",
+      "Ensure proper water management",
+      "Destroy infected crop residues"
+    ],
+    "early_preventive_practices": [
+      "Seed treatment with fungicides",
+      "Use silicon fertilization",
+      "Maintain moderate plant density",
+      "Avoid water stress conditions",
+      "Monitor fields regularly for early symptoms"
+    ],
+    "organic_cures": [
+      {
+        "name": "Neem-based Products",
+        "type": "Bio-fungicide",
+        "examples": ["Neem oil", "Neem cake extract"],
+        "application": "Spray every 10-15 days during susceptible growth stages",
+        "cost": "Very Low"
+      },
+      {
+        "name": "Trichoderma Species",
+        "type": "Bio-control",
+        "examples": ["Trichoderma harzianum", "Trichoderma viride"],
+        "application": "Seed treatment and soil application",
+        "cost": "Low"
+      },
+      {
+        "name": "Plant-derived Fungicides",
+        "type": "Organic",
+        "examples": ["Garlic extract", "Tobacco decoction"],
+        "application": "Foliar spray at disease onset",
+        "cost": "Very Low"
+      }
+    ],
+    "chemical_pesticides": [
+      {
+        "name": "Tricyclazole",
+        "dosage": "0.5-1.0 g per liter of water",
+        "application": "Spray at tillering and panicle initiation stages",
+        "safety_period": "21 days",
+        "cost": "Medium"
+      },
+      {
+        "name": "Carbendazim",
+        "dosage": "1g per liter of water",
+        "application": "Spray at first symptom appearance",
+        "safety_period": "15 days",
+        "cost": "Low"
+      },
+      {
+        "name": "Edifenphos",
+        "dosage": "1ml per liter of water",
+        "application": "Spray every 10-15 days",
+        "safety_period": "14 days",
+        "cost": "Low"
+      }
+    ],
+    "cultural_controls": [
+      "Adjust planting time to avoid favorable conditions",
+      "Use moderate nitrogen levels",
+      "Ensure good drainage",
+      "Remove volunteer rice plants",
+      "Practice crop rotation with legumes"
+    ]
+  },
+  "Sheath Blight": {
+    "disease_name": "Sheath Blight",
+    "scientific_name": "Rhizoctonia solani",
+    "causes": [
+      "Soil-borne fungus surviving in plant debris",
+      "High humidity and warm temperatures (28-32°C)",
+      "Dense plant canopy",
+      "Excessive nitrogen fertilization",
+      "Continuous rice cropping"
+    ],
+    "symptoms": [
+      "Oval or elliptical lesions on leaf sheaths",
+      "Lesions with greenish-gray centers and brown borders",
+      "White fungal growth under humid conditions",
+      "Lesions on leaf blades in severe cases",
+      "Plant lodging and yield reduction"
+    ],
+    "prevention_methods": [
+      "Use moderate plant density",
+      "Practice balanced fertilization",
+      "Ensure proper drainage",
+      "Use resistant varieties",
+      "Destroy crop residues after harvest"
+    ],
+    "early_preventive_practices": [
+      "Avoid excessive nitrogen application",
+      "Maintain proper plant spacing",
+      "Use silicon fertilizers",
+      "Monitor lower leaf sheaths regularly",
+      "Practice field sanitation"
+    ],
+    "organic_cures": [
+      {
+        "name": "Bio-control Agents",
+        "type": "Biological",
+        "examples": ["Trichoderma harzianum", "Pseudomonas fluorescens"],
+        "application": "Seed treatment and soil application",
+        "cost": "Low"
+      },
+      {
+        "name": "Botanical Extracts",
+        "type": "Organic",
+        "examples": ["Neem cake extract", "Garlic clove extract"],
+        "application": "Soil drenching and foliar spray",
+        "cost": "Very Low"
+      },
+      {
+        "name": "Organic Amendments",
+        "type": "Soil health",
+        "examples": ["Compost tea", "Farmyard manure"],
+        "application": "Soil application before planting",
+        "cost": "Very Low"
+      }
+    ],
+    "chemical_pesticides": [
+      {
+        "name": "Validamycin",
+        "dosage": "2ml per liter of water",
+        "application": "Spray at disease onset, repeat after 15 days",
+        "safety_period": "21 days",
+        "cost": "Medium"
+      },
+      {
+        "name": "Hexaconazole",
+        "dosage": "1ml per liter of water",
+        "application": "Spray when first symptoms appear",
+        "safety_period": "14 days",
+        "cost": "Medium"
+      },
+      {
+        "name": "Propiconazole",
+        "dosage": "1ml per liter of water",
+        "application": "Spray at tillering and booting stages",
+        "safety_period": "21 days",
+        "cost": "Medium"
+      }
+    ],
+    "cultural_controls": [
+      "Avoid water stagnation in fields",
+      "Practice crop rotation with upland crops",
+      "Use wider row spacing",
+      "Remove infected plant debris",
+      "Maintain optimal plant population"
+    ]
+  }
+}

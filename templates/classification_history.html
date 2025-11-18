@@ -1,0 +1,184 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <!-- Header Section -->
+        <div class="text-center mb-5">
+            <div class="header-icon mb-3">
+                <i class="bi bi-clock-history text-primary fs-1"></i>
+            </div>
+            <h1 class="display-6 fw-bold text-dark mb-3">Classification History</h1>
+            <p class="lead text-muted">Review your previous rice disease analyses</p>
+        </div>
+
+        {% if classifications %}
+        <!-- Results Grid -->
+        <div class="row g-4">
+            {% for result in classifications %}
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="card history-card border-0 shadow-sm h-100">
+                    <div class="card-header bg-white border-bottom-0 pb-0">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div>
+                                <span class="badge {% if result.predicted_class == 'Healthy Rice Leaf' %}bg-success{% else %}bg-warning{% endif %} mb-2">
+                                    {% if result.predicted_class == 'Healthy Rice Leaf' %}
+                                        <i class="bi bi-check-circle-fill me-1"></i>Healthy
+                                    {% else %}
+                                        <i class="bi bi-exclamation-triangle-fill me-1"></i>Disease
+                                    {% endif %}
+                                </span>
+                                <h6 class="mb-1 text-truncate">{{ result.predicted_class }}</h6>
+                            </div>
+                            <div class="text-end">
+                                <small class="text-muted">{{ result.uploaded_at|date:"M d, Y" }}</small>
+                                <div class="confidence-badge bg-light rounded-pill px-2 py-1 mt-1">
+                                    <small class="fw-bold text-success">{{ result.confidence }}%</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body pt-0">
+                        <div class="result-image-container mb-3">
+                            <img src="{{ result.image.url }}" alt="Classification result" class="img-fluid rounded" style="height: 120px; width: 100%; object-fit: cover;">
+                        </div>
+                        
+                        <!-- Top 3 Probabilities -->
+                        <div class="probabilities-list">
+                            {% for class_name, confidence in result.class_probabilities.items|slice:":3" %}
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <small class="text-muted {% if class_name == result.predicted_class %}fw-bold text-success{% endif %}">
+                                    {% if class_name == result.predicted_class %}
+                                        <i class="bi bi-trophy-fill me-1 text-warning"></i>
+                                    {% else %}
+                                        <i class="bi bi-circle me-1 text-muted"></i>
+                                    {% endif %}
+                                    {{ class_name }}
+                                </small>
+                                <small class="fw-semibold {% if class_name == result.predicted_class %}text-success{% else %}text-muted{% endif %}">
+                                    {{ confidence }}%
+                                </small>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="card-footer bg-white border-top-0 pt-0">
+                        <div class="d-grid">
+                            <a href="{% url 'classification_result_detail' result.id %}" class="btn btn-outline-primary btn-sm">
+                                <i class="bi bi-eye me-1"></i>View Details
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- Empty State -->
+        {% else %}
+        <div class="text-center py-5">
+            <div class="empty-state-icon mb-4">
+                <i class="bi bi-inbox text-muted" style="font-size: 4rem;"></i>
+            </div>
+            <h3 class="text-muted mb-3">No Classifications Yet</h3>
+            <p class="text-muted mb-4">You haven't analyzed any rice leaf images yet. Start by uploading your first image for analysis.</p>
+            <a href="{% url 'classify_rice_disease' %}" class="btn btn-success btn-lg">
+                <i class="bi bi-search me-2"></i>Analyze First Image
+            </a>
+        </div>
+        {% endif %}
+
+        <!-- Stats Card -->
+        {% if classifications %}
+        <div class="row mt-5">
+            <div class="col-12">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body">
+                        <div class="row text-center">
+                            <div class="col-6 col-md-3">
+                                <h3 class="text-success mb-1">{{ classifications.count }}</h3>
+                                <p class="text-muted small mb-0">Total Analyses</p>
+                            </div>
+                            <div class="col-6 col-md-3">
+                                <h3 class="text-success mb-1">{{ healthy_count }}</h3>
+                                <p class="text-muted small mb-0">Healthy Plants</p>
+                            </div>
+                            <div class="col-6 col-md-3">
+                                <h3 class="text-warning mb-1">{{ disease_count }}</h3>
+                                <p class="text-muted small mb-0">Disease Cases</p>
+                            </div>
+                            <div class="col-6 col-md-3">
+                                <h3 class="text-info mb-1">{{ avg_confidence }}%</h3>
+                                <p class="text-muted small mb-0">Avg Confidence</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<style>
+.header-icon {
+    background: linear-gradient(135deg, #28a745, #20c997);
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+}
+
+.history-card {
+    transition: all 0.3s ease;
+    border-radius: 12px;
+}
+
+.history-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15) !important;
+}
+
+.confidence-badge {
+    font-size: 0.7rem;
+}
+
+.empty-state-icon {
+    opacity: 0.5;
+}
+
+.probabilities-list {
+    max-height: 120px;
+    overflow-y: auto;
+}
+
+/* Custom scrollbar */
+.probabilities-list::-webkit-scrollbar {
+    width: 4px;
+}
+
+.probabilities-list::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 2px;
+}
+
+.probabilities-list::-webkit-scrollbar-thumb {
+    background: #28a745;
+    border-radius: 2px;
+}
+
+@media (max-width: 768px) {
+    .header-icon {
+        width: 60px;
+        height: 60px;
+    }
+    
+    .display-6 {
+        font-size: 1.75rem;
+    }
+}
+</style>
+{% endblock %}

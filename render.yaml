@@ -1,0 +1,14 @@
+services:
+  - type: web
+    name: rice-disease-detector
+    env: python
+    plan: free
+    buildCommand: "./build.sh"
+    startCommand: "gunicorn rice_detect.wsgi:application"
+    envVars:
+      - key: DEBUG
+        value: "False"
+      - key: SECRET_KEY
+        generateValue: true
+      - key: WEB_CONCURRENCY
+        value: 4

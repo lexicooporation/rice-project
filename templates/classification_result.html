@@ -1,0 +1,612 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <!-- Results Header -->
+        <div class="text-center mb-5">
+            <div class="result-header-icon mb-3">
+                <i class="bi bi-graph-up-arrow text-primary fs-1"></i>
+            </div>
+            <h1 class="display-6 fw-bold text-body text-primary mb-3">Analysis Results</h1>
+            <p class="lead text-muted">AI-powered diagnosis for your rice crop</p>
+        </div>
+
+        <!-- Login Prompt for Anonymous Users -->
+        {% if not user_authenticated %}
+        <div class="card border-0 shadow-sm mb-4">
+            <div class="card-body text-center p-4">
+                <div class="row align-items-center">
+                    <div class="col-md-8 text-md-start">
+                        <h6 class="mb-1 text-success">
+                            <i class="bi bi-cloud-arrow-down me-2"></i>Save Your Analysis
+                        </h6>
+                        <p class="text-muted small mb-0">
+                            Create a free account to save all your disease detection results and access them anytime.
+                        </p>
+                    </div>
+                    <div class="col-md-4 text-md-end mt-2 mt-md-0">
+                        <a href="{% url 'register' %}" class="btn btn-success btn-sm me-2">
+                            <i class="bi bi-person-plus me-1"></i>Sign Up
+                        </a>
+                        <a href="{% url 'login' %}" class="btn btn-outline-success btn-sm">
+                            <i class="bi bi-box-arrow-in-right me-1"></i>Login
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Results Card -->
+        <div class="card border-0 shadow-sm mb-4 result-main-card">
+            <div class="card-header py-4 d-flex justify-content-between align-items-center border-bottom">
+                <div class="d-flex align-items-center">
+                    <div class="result-step me-3">
+                        <span class="step-number">2</span>
+                    </div>
+                    <div>
+                        <h5 class="mb-0 fw-semibold">Diagnosis Results</h5>
+                        <p class="text-muted small mb-0">AI analysis completed successfully</p>
+                    </div>
+                </div>
+                <a href="{% url 'classify_rice_disease' %}" class="btn btn-outline-primary">
+                    <i class="bi bi-plus-circle me-1"></i>New Analysis
+                </a>
+            </div>
+            <div class="card-body p-4">
+                <div class="row g-4 align-items-center">
+                    <div class="col-12 col-md-6 text-center">
+                        <div class="image-container position-relative">
+                            <h6 class="mb-3 text-muted small fw-semibold">Uploaded Image</h6>
+                            <img src="{{ uploaded_file_url }}" alt="Uploaded rice leaf" class="result-image img-thumbnail rounded w-100" style="max-height: 280px; object-fit: cover;">
+                            <div class="image-badge">
+                                <i class="bi bi-check-circle-fill text-success me-1"></i>Analyzed
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <div class="result-card {% if predicted_class == 'Healthy Rice Leaf' %}healthy{% else %}disease{% endif %} rounded-3 p-4 h-100 position-relative">
+                            <div class="result-status mb-3">
+                                <span class="status-badge {% if predicted_class == 'Healthy Rice Leaf' %}bg-success{% else %}bg-warning{% endif %}">
+                                    {% if predicted_class == 'Healthy Rice Leaf' %}
+                                    <i class="bi bi-check-circle-fill me-1"></i>Healthy
+                                    {% else %}
+                                    <i class="bi bi-exclamation-triangle-fill me-1"></i>Disease Detected
+                                    {% endif %}
+                                </span>
+                            </div>
+                            <h3 class="result-title mb-3 text-white">{{ predicted_class }}</h3>
+                            <div class="confidence-display mb-4">
+                                <div class="confidence-value">
+                                    <i class="bi bi-speedometer2 me-2 text-white"></i>
+                                    <span class="value text-white">{{ confidence }}%</span>
+                                    <span class="label text-white">Confidence Score</span>
+                                </div>
+                            </div>
+                            
+                            {% if predicted_class != 'Healthy Rice Leaf' %}
+                            <div class="disease-info mt-3 pt-3 border-top border-light border-opacity-25">
+                                <div class="info-item text-white">
+                                    <strong class="d-flex align-items-center">
+                                        <i class="bi bi-journal-text me-2"></i>Scientific Name:
+                                    </strong> 
+                                    <span class="ms-2">{{ disease_info.scientific_name }}</span>
+                                </div>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Disease Information -->
+        {% if predicted_class != 'Healthy Rice Leaf' %}
+        <div class="card border-0 shadow-sm mb-4">
+            <div class="card-header py-4 border-bottom">
+                <div class="d-flex align-items-center">
+                    <div class="result-step me-3">
+                        <span class="step-number">3</span>
+                    </div>
+                    <div>
+                        <h6 class="mb-0 fw-semibold">
+                            <i class="bi bi-clipboard2-pulse me-2 text-warning"></i>Disease Management Guide
+                        </h6>
+                        <p class="text-muted small mb-0">Complete treatment and prevention plan</p>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body p-4">
+                <!-- Symptoms -->
+                <div class="section-card mb-4">
+                    <h6 class="section-title mb-3">
+                        <i class="bi bi-search text-primary me-2"></i>Symptoms Identification
+                    </h6>
+                    <div class="row g-2">
+                        {% for symptom in disease_info.symptoms %}
+                        <div class="col-12 col-md-6">
+                            <div class="symptom-item d-flex align-items-start p-2 rounded">
+                                <i class="bi bi-arrow-right-circle text-muted me-2 mt-1 flex-shrink-0"></i>
+                                <span class="small">{{ symptom }}</span>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <!-- Causes -->
+                <div class="section-card mb-4">
+                    <h6 class="section-title mb-3">
+                        <i class="bi bi-exclamation-triangle text-warning me-2"></i>Primary Causes
+                    </h6>
+                    <div class="row g-2">
+                        {% for cause in disease_info.causes %}
+                        <div class="col-12 col-sm-6 col-lg-4">
+                            <div class="cause-item d-flex align-items-center p-2 bg-light rounded">
+                                <i class="bi bi-dot text-warning me-2 flex-shrink-0 fs-5"></i>
+                                <span class="small">{{ cause }}</span>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <!-- Prevention -->
+                <div class="section-card mb-4">
+                    <h6 class="section-title mb-3">
+                        <i class="bi bi-shield-check text-success me-2"></i>Prevention Methods
+                    </h6>
+                    <div class="row g-2">
+                        {% for method in disease_info.prevention_methods %}
+                        <div class="col-12 col-sm-6 col-lg-4">
+                            <div class="prevention-item d-flex align-items-start p-2">
+                                <i class="bi bi-check-circle text-success me-2 mt-1 flex-shrink-0"></i>
+                                <span class="small">{{ method }}</span>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <!-- Treatments -->
+                <div class="section-card mb-4">
+                    <h6 class="section-title mb-3">
+                        <i class="bi bi-clipboard2-plus text-info me-2"></i>Treatment Options
+                    </h6>
+                    
+                    <!-- Organic Treatments -->
+                    <div class="treatment-section mb-4">
+                        <h6 class="treatment-type text-success mb-3">
+                            <i class="bi bi-flower1 me-2"></i>Organic Treatments
+                        </h6>
+                        <div class="row g-3">
+                            {% for treatment in disease_info.organic_cures %}
+                            <div class="col-12 col-md-6">
+                                <div class="treatment-card organic border border-success rounded-3 p-3 h-100">
+                                    <div class="treatment-header d-flex align-items-center mb-3">
+                                        <i class="bi bi-droplet text-success me-2"></i>
+                                        <strong class="small">{{ treatment.name }}</strong>
+                                    </div>
+                                    <div class="treatment-details small text-muted">
+                                        <div class="detail-item d-flex mb-2">
+                                            <i class="bi bi-tag me-2 flex-shrink-0"></i>
+                                            <span>Type: {{ treatment.type }}</span>
+                                        </div>
+                                        <div class="detail-item d-flex mb-2">
+                                            <i class="bi bi-list-ul me-2 flex-shrink-0"></i>
+                                            <span>Examples: {{ treatment.examples|join:", " }}</span>
+                                        </div>
+                                        <div class="detail-item d-flex mb-2">
+                                            <i class="bi bi-gear me-2 flex-shrink-0"></i>
+                                            <span>Apply: {{ treatment.application }}</span>
+                                        </div>
+                                        <div class="detail-item d-flex">
+                                            <i class="bi bi-currency-dollar me-2 flex-shrink-0"></i>
+                                            <span>Cost: {{ treatment.cost }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    <!-- Chemical Treatments -->
+                    {% if disease_info.chemical_pesticides %}
+                    <div class="treatment-section">
+                        <div class="alert alert-warning d-flex align-items-center py-2 small mb-3">
+                            <i class="bi bi-exclamation-triangle-fill me-2 flex-shrink-0"></i>
+                            <div>
+                                <strong>Safety Notice:</strong> Use chemical treatments as last resort and follow all safety guidelines
+                            </div>
+                        </div>
+                        <h6 class="treatment-type text-warning mb-3">
+                            <i class="bi bi-droplet me-2"></i>Chemical Treatments
+                        </h6>
+                        <div class="row g-3">
+                            {% for pesticide in disease_info.chemical_pesticides %}
+                            <div class="col-12 col-md-6">
+                                <div class="treatment-card chemical border border-warning rounded-3 p-3 h-100">
+                                    <div class="treatment-header d-flex align-items-center mb-3">
+                                        <i class="bi bi-droplet text-warning me-2"></i>
+                                        <strong class="small">{{ pesticide.name }}</strong>
+                                    </div>
+                                    <div class="treatment-details small text-muted">
+                                        <div class="detail-item d-flex mb-2">
+                                            <i class="bi bi-speedometer me-2 flex-shrink-0"></i>
+                                            <span>Dosage: {{ pesticide.dosage }}</span>
+                                        </div>
+                                        <div class="detail-item d-flex mb-2">
+                                            <i class="bi bi-gear me-2 flex-shrink-0"></i>
+                                            <span>Apply: {{ pesticide.application }}</span>
+                                        </div>
+                                        <div class="detail-item d-flex mb-2">
+                                            <i class="bi bi-clock me-2 flex-shrink-0"></i>
+                                            <span>Wait: {{ pesticide.safety_period }}</span>
+                                        </div>
+                                        <div class="detail-item d-flex">
+                                            <i class="bi bi-currency-dollar me-2 flex-shrink-0"></i>
+                                            <span>Cost: {{ pesticide.cost }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+
+                <!-- Cultural Controls -->
+                <div class="section-card">
+                    <h6 class="section-title mb-3">
+                        <i class="bi bi-person-check text-info me-2"></i>Cultural Controls
+                    </h6>
+                    <div class="row g-2">
+                        {% for control in disease_info.cultural_controls %}
+                        <div class="col-12 col-sm-6">
+                            <div class="control-item d-flex align-items-start p-2">
+                                <i class="bi bi-check-lg text-info me-2 mt-1 flex-shrink-0"></i>
+                                <span class="small">{{ control }}</span>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% else %}
+        <!-- Healthy Plant Information -->
+        <div class="card border-0 shadow-sm mb-4">
+            <div class="card-header bg-white py-4 border-bottom">
+                <div class="d-flex align-items-center">
+                    <div class="result-step me-3">
+                        <span class="step-number">3</span>
+                    </div>
+                    <div>
+                        <h6 class="mb-0 fw-semibold">
+                            <i class="bi bi-check-circle me-2 text-success"></i>Healthy Plant Analysis
+                        </h6>
+                        <p class="text-muted small mb-0">Your rice plant is in excellent condition</p>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body p-4">
+                <div class="alert alert-success d-flex align-items-center py-3 mb-4">
+                    <i class="bi bi-check-circle-fill me-3 fs-4 flex-shrink-0"></i>
+                    <div>
+                        <strong class="d-block mb-1">Excellent News!</strong>
+                        <span class="small">Your rice plant shows all signs of being healthy and well-maintained.</span>
+                    </div>
+                </div>
+
+                <div class="row g-4">
+                    <div class="col-12 col-md-6">
+                        <div class="health-section">
+                            <h6 class="section-title text-success mb-3">
+                                <i class="bi bi-check-lg me-2"></i>Healthy Characteristics
+                            </h6>
+                            <div class="health-list">
+                                {% for char in disease_info.characteristics %}
+                                <div class="health-item d-flex align-items-start mb-2 p-2 rounded bg-success bg-opacity-10">
+                                    <i class="bi bi-check-circle-fill text-success me-2 mt-1 flex-shrink-0"></i>
+                                    <span class="small">{{ char }}</span>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <div class="maintenance-section">
+                            <h6 class="section-title text-primary mb-3">
+                                <i class="bi bi-lightbulb me-2"></i>Maintenance Tips
+                            </h6>
+                            <div class="maintenance-list">
+                                {% for practice in disease_info.maintenance_practices %}
+                                <div class="maintenance-item d-flex align-items-start mb-2 p-2 rounded bg-primary bg-opacity-10">
+                                    <i class="bi bi-arrow-right-circle text-primary me-2 mt-1 flex-shrink-0"></i>
+                                    <span class="small">{{ practice }}</span>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-4 pt-4 border-top">
+                    <h6 class="section-title text-info mb-3">
+                        <i class="bi bi-binoculars me-2"></i>Continuous Monitoring
+                    </h6>
+                    <div class="row g-2">
+                        {% for recommendation in disease_info.monitoring_recommendations %}
+                        <div class="col-12 col-sm-6">
+                            <div class="monitoring-item d-flex align-items-start p-2">
+                                <i class="bi bi-search text-info me-2 mt-1 flex-shrink-0"></i>
+                                <span class="small">{{ recommendation }}</span>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Confidence Scores -->
+        <div class="card border-0 shadow-sm">
+            <div class="card-header bg-white py-4 border-bottom">
+                <h6 class="mb-0 text-dark fw-semibold">
+                    <i class="bi bi-bar-chart me-2 text-primary"></i>Detailed Confidence Analysis
+                </h6>
+            </div>
+            <div class="card-body p-4">
+                {% for class_name, confidence in class_probabilities.items %}
+                <div class="confidence-row mb-3">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <span class="fw-medium {% if class_name == predicted_class %}text-success{% else %}text-muted{% endif %}">
+                            {% if class_name == predicted_class %}
+                            <i class="bi bi-trophy-fill me-2 text-warning"></i>
+                            {% else %}
+                            <i class="bi bi-circle me-2 text-muted"></i>
+                            {% endif %}
+                            {{ class_name }}
+                        </span>
+                        <span class="confidence-value fw-bold {% if class_name == predicted_class %}text-success{% else %}text-muted{% endif %}">
+                            {{ confidence }}%
+                        </span>
+                    </div>
+                    <div class="progress" style="height: 8px;">
+                        <div class="progress-bar {% if class_name == predicted_class %}bg-success{% else %}bg-secondary{% endif %}" 
+                             style="width: {{ confidence }}%" 
+                             role="progressbar" 
+                             aria-valuenow="{{ confidence }}" 
+                             aria-valuemin="0" 
+                             aria-valuemax="100">
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.result-header-icon {
+    background: linear-gradient(135deg, #28a745, #20c997);
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+}
+
+.result-main-card {
+    border-radius: 16px;
+    overflow: hidden;
+}
+
+.result-step {
+    position: relative;
+}
+
+.step-number {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    background: linear-gradient(135deg, #28a745, #20c997);
+    color: white;
+    border-radius: 50%;
+    font-weight: bold;
+    font-size: 0.9rem;
+}
+
+.image-container {
+    position: relative;
+}
+
+.image-badge {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: rgba(255,255,255,0.95);
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.result-card {
+    position: relative;
+    overflow: hidden;
+}
+
+.result-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, transparent 50%);
+    pointer-events: none;
+}
+
+.status-badge {
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: white;
+}
+
+.confidence-display {
+    text-align: center;
+}
+
+.confidence-value {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    background: rgba(255,255,255,0.2);
+    padding: 1rem 2rem;
+    border-radius: 15px;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,0.3);
+}
+
+.confidence-value .value {
+    font-size: 2rem;
+    font-weight: bold;
+    line-height: 1;
+    color: white !important;
+}
+
+.confidence-value .label {
+    font-size: 0.8rem;
+    opacity: 0.9;
+    color: white !important;
+}
+
+.confidence-value i {
+    color: white !important;
+}
+
+.section-card {
+    padding: 1.5rem;
+    background: rgba(248, 249, 250, 0.5);
+    border-radius: 12px;
+    border: 1px solid rgba(0,0,0,0.05);
+}
+
+.section-title {
+    font-weight: 600;
+    color: #495057;
+}
+
+.symptom-item, .cause-item, .prevention-item, .control-item,
+.health-item, .maintenance-item, .monitoring-item {
+    transition: all 0.2s ease;
+}
+
+.symptom-item:hover, .cause-item:hover, .prevention-item:hover, .control-item:hover,
+.health-item:hover, .maintenance-item:hover, .monitoring-item:hover {
+    background: rgba(255,255,255,0.8);
+    transform: translateX(5px);
+}
+
+.treatment-section {
+    margin-bottom: 2rem;
+}
+
+.treatment-type {
+    font-weight: 600;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid currentColor;
+}
+
+.treatment-card {
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.treatment-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: currentColor;
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+}
+
+.treatment-card:hover::before {
+    transform: scaleX(1);
+}
+
+.treatment-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+}
+
+.treatment-header {
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+    padding-bottom: 0.75rem;
+}
+
+.detail-item {
+    padding: 0.25rem 0;
+}
+
+.health-section, .maintenance-section {
+    height: 100%;
+}
+
+@media (max-width: 768px) {
+    .result-header-icon {
+        width: 60px;
+        height: 60px;
+    }
+    
+    .confidence-value {
+        padding: 0.75rem 1.5rem;
+    }
+    
+    .confidence-value .value {
+        font-size: 1.5rem;
+    }
+    
+    .section-card {
+        padding: 1rem;
+    }
+    
+    .treatment-card {
+        margin-bottom: 1rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .card-body {
+        padding: 1.5rem !important;
+    }
+    
+    .result-title {
+        font-size: 1.25rem !important;
+    }
+    
+    .status-badge {
+        font-size: 0.7rem;
+        padding: 0.4rem 0.8rem;
+    }
+}
+</style>
+{% endblock %}

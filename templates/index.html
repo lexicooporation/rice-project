@@ -1,0 +1,569 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-section mb-5">
+    <div class="row">
+        <div class="col-12 text-center">
+            <div class="hero-badge mb-3">
+                <span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25">
+                    <i class="bi bi-shield-check me-1"></i>AI-Powered Detection
+                </span>
+            </div>
+            <h1 class="display-5 fw-bold text-dark mb-4">Protect Your Rice Crops with Intelligent Disease Detection</h1>
+            <p class="lead mb-4 fs-6 text-muted mx-auto" style="max-width: 600px;">
+                Advanced machine learning technology helps identify rice diseases early, providing instant diagnosis and expert treatment recommendations to save your harvest.
+            </p>
+            
+            <div class="d-grid gap-2 d-md-flex justify-content-md-center">
+                <a href="{% url 'classify_rice_disease' %}" class="btn btn-success px-4 py-3 me-md-3">
+                    <i class="bi bi-search me-2"></i>Detect Disease Now
+                </a>
+                <a href="#how-it-works" class="btn btn-outline-success px-4 py-3">
+                    <i class="bi bi-play-circle me-2"></i>How It Works
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Stats Section -->
+<section class="stats-section mb-5 py-4">
+    <div class="row g-4 text-center">
+        <div class="col-6 col-md-3">
+            <div class="stat-card">
+                <h3 class="text-success mb-1">95%</h3>
+                <p class="text-muted small mb-0">Accuracy Rate</p>
+            </div>
+        </div>
+        <div class="col-6 col-md-3">
+            <div class="stat-card">
+                <h3 class="text-success mb-1">5+</h3>
+                <p class="text-muted small mb-0">Diseases Detected</p>
+            </div>
+        </div>
+        <div class="col-6 col-md-3">
+            <div class="stat-card">
+                <h3 class="text-success mb-1">24/7</h3>
+                <p class="text-muted small mb-0">Available</p>
+            </div>
+        </div>
+        <div class="col-6 col-md-3">
+            <div class="stat-card">
+                <h3 class="text-success mb-1">30s</h3>
+                <p class="text-muted small mb-0">Fast Results</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Image Slider Section -->
+<section class="slider-section mb-5">
+    <div class="row">
+        <div class="col-12">
+            <h2 class="text-center mb-4 fw-bold">Common Rice Diseases We Detect</h2>
+            <div class="slider-container position-relative">
+                <div class="disease-slider">
+                    <div class="slider-item">
+                        <div class="card disease-slider-card border-0 shadow-sm h-100">
+                            <div class="card-body text-center p-4">
+                                <div class="disease-icon text-danger mb-3">
+                                    <i class="bi bi-droplet fs-1"></i>
+                                </div>
+                                <h5 class="card-title mb-2">Bacterial Leaf Blight</h5>
+                                <p class="card-text text-muted small">Yellowish-white lesions with wavy margins</p>
+                                <div class="symptoms mt-3">
+                                    <span class="badge bg-light text-dark border small">Water-soaked lesions</span>
+                                    <span class="badge bg-light text-dark border small">Yellow stripes</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="slider-item">
+                        <div class="card disease-slider-card border-0 shadow-sm h-100">
+                            <div class="card-body text-center p-4">
+                                <div class="disease-icon text-warning mb-3">
+                                    <i class="bi bi-circle-fill fs-1"></i>
+                                </div>
+                                <h5 class="card-title mb-2">Brown Spot</h5>
+                                <p class="card-text text-muted small">Circular brown spots on leaves</p>
+                                <div class="symptoms mt-3">
+                                    <span class="badge bg-light text-dark border small">Dark brown spots</span>
+                                    <span class="badge bg-light text-dark border small">Yellow halos</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="slider-item">
+                        <div class="card disease-slider-card border-0 shadow-sm h-100">
+                            <div class="card-body text-center p-4">
+                                <div class="disease-icon text-secondary mb-3">
+                                    <i class="bi bi-wind fs-1"></i>
+                                </div>
+                                <h5 class="card-title mb-2">Leaf Blast</h5>
+                                <p class="card-text text-muted small">Diamond-shaped lesions with gray centers</p>
+                                <div class="symptoms mt-3">
+                                    <span class="badge bg-light text-dark border small">Spindle spots</span>
+                                    <span class="badge bg-light text-dark border small">Gray centers</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="slider-item">
+                        <div class="card disease-slider-card border-0 shadow-sm h-100">
+                            <div class="card-body text-center p-4">
+                                <div class="disease-icon text-info mb-3">
+                                    <i class="bi bi-arrow-down-right fs-1"></i>
+                                </div>
+                                <h5 class="card-title mb-2">Sheath Blight</h5>
+                                <p class="card-text text-muted small">Oval or elliptical greenish-gray lesions</p>
+                                <div class="symptoms mt-3">
+                                    <span class="badge bg-light text-dark border small">Lesions on sheath</span>
+                                    <span class="badge bg-light text-dark border small">White mold</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button class="slider-nav slider-prev" onclick="slidePrev()">
+                    <i class="bi bi-chevron-left"></i>
+                </button>
+                <button class="slider-nav slider-next" onclick="slideNext()">
+                    <i class="bi bi-chevron-right"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- How It Works Section -->
+<section id="how-it-works" class="how-it-works-section mb-5 py-5 bg-light rounded-3">
+    <div class="row">
+        <div class="col-12 text-center mb-5">
+            <h2 class="fw-bold mb-3">How It Works in 3 Simple Steps</h2>
+            <p class="text-muted">Get accurate disease detection in minutes</p>
+        </div>
+    </div>
+    <div class="row g-4">
+        <div class="col-md-4">
+            <div class="step-card text-center">
+                <div class="step-number">1</div>
+                <div class="step-icon mb-3">
+                    <i class="bi bi-cloud-arrow-up text-primary fs-2"></i>
+                </div>
+                <h5 class="mb-3">Upload Image</h5>
+                <p class="text-muted small">Take a clear photo of your rice leaf and upload it to our system</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="step-card text-center">
+                <div class="step-number">2</div>
+                <div class="step-icon mb-3">
+                    <i class="bi bi-cpu text-warning fs-2"></i>
+                </div>
+                <h5 class="mb-3">AI Analysis</h5>
+                <p class="text-muted small">Our advanced AI model analyzes the image for disease patterns</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="step-card text-center">
+                <div class="step-number">3</div>
+                <div class="step-icon mb-3">
+                    <i class="bi bi-clipboard2-check text-success fs-2"></i>
+                </div>
+                <h5 class="mb-3">Get Results</h5>
+                <p class="text-muted small">Receive instant diagnosis with treatment recommendations</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Features Section -->
+<section class="features-section mb-5">
+    <div class="row">
+        <div class="col-12 text-center mb-5">
+            <h2 class="fw-bold mb-3">Why Choose Our System?</h2>
+            <p class="text-muted">Comprehensive solutions for rice farmers</p>
+        </div>
+    </div>
+    <div class="row g-4">
+        <div class="col-md-6 col-lg-4">
+            <div class="card feature-card h-100 border-0 shadow-sm">
+                <div class="card-body p-4">
+                    <div class="feature-icon text-success mb-4">
+                        <i class="bi bi-search-heart fs-2"></i>
+                    </div>
+                    <h5 class="card-title mb-3">Quick & Accurate Detection</h5>
+                    <p class="card-text text-muted small">Instant identification of common rice diseases using advanced deep learning technology with 95%+ accuracy.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-lg-4">
+            <div class="card feature-card h-100 border-0 shadow-sm">
+                <div class="card-body p-4">
+                    <div class="feature-icon text-warning mb-4">
+                        <i class="bi bi-lightbulb fs-2"></i>
+                    </div>
+                    <h5 class="card-title mb-3">Expert Treatment Solutions</h5>
+                    <p class="card-text text-muted small">Get both organic and chemical treatment options tailored to specific diseases, backed by agricultural research.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-lg-4">
+            <div class="card feature-card h-100 border-0 shadow-sm">
+                <div class="card-body p-4">
+                    <div class="feature-icon text-info mb-4">
+                        <i class="bi bi-shield-check fs-2"></i>
+                    </div>
+                    <h5 class="card-title mb-3">Prevention & Management</h5>
+                    <p class="card-text text-muted small">Learn how to prevent future outbreaks and maintain healthy crops with our comprehensive guides.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-lg-4">
+            <div class="card feature-card h-100 border-0 shadow-sm">
+                <div class="card-body p-4">
+                    <div class="feature-icon text-primary mb-4">
+                        <i class="bi bi-phone fs-2"></i>
+                    </div>
+                    <h5 class="card-title mb-3">Mobile Friendly</h5>
+                    <p class="card-text text-muted small">Access our system from any device - perfect for farmers in the field with smartphone compatibility.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-lg-4">
+            <div class="card feature-card h-100 border-0 shadow-sm">
+                <div class="card-body p-4">
+                    <div class="feature-icon text-danger mb-4">
+                        <i class="bi bi-clock-history fs-2"></i>
+                    </div>
+                    <h5 class="card-title mb-3">24/7 Availability</h5>
+                    <p class="card-text text-muted small">Get instant diagnosis anytime, anywhere. No waiting for agricultural experts or laboratory results.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-lg-4">
+            <div class="card feature-card h-100 border-0 shadow-sm">
+                <div class="card-body p-4">
+                    <div class="feature-icon text-success mb-4">
+                        <i class="bi bi-translate fs-2"></i>
+                    </div>
+                    <h5 class="card-title mb-3">Farmer Friendly</h5>
+                    <p class="card-text text-muted small">Simple, easy-to-understand results and recommendations designed specifically for farmers.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Educational Section -->
+<section class="educational-section mb-5 py-5 bg-success bg-opacity-10 rounded-3">
+    <div class="row">
+        <div class="col-12 text-center mb-5">
+            <h2 class="fw-bold mb-3">Rice Disease Prevention Guide</h2>
+            <p class="text-muted">Essential knowledge for every rice farmer</p>
+        </div>
+    </div>
+    <div class="row g-4">
+        <div class="col-lg-6">
+            <div class="educational-card bg-white rounded-3 p-4 shadow-sm h-100">
+                <h5 class="mb-4 text-success">
+                    <i class="bi bi-shield-plus me-2"></i>Prevention Methods
+                </h5>
+                <div class="prevention-list">
+                    <div class="prevention-item d-flex mb-3">
+                        <div class="prevention-icon me-3">
+                            <i class="bi bi-check-circle-fill text-success"></i>
+                        </div>
+                        <div>
+                            <h6 class="mb-1">Use Resistant Varieties</h6>
+                            <p class="text-muted small mb-0">Plant disease-resistant rice varieties suitable for your region.</p>
+                        </div>
+                    </div>
+                    <div class="prevention-item d-flex mb-3">
+                        <div class="prevention-icon me-3">
+                            <i class="bi bi-check-circle-fill text-success"></i>
+                        </div>
+                        <div>
+                            <h6 class="mb-1">Proper Water Management</h6>
+                            <p class="text-muted small mb-0">Avoid continuous flooding and ensure proper drainage.</p>
+                        </div>
+                    </div>
+                    <div class="prevention-item d-flex mb-3">
+                        <div class="prevention-icon me-3">
+                            <i class="bi bi-check-circle-fill text-success"></i>
+                        </div>
+                        <div>
+                            <h6 class="mb-1">Balanced Fertilization</h6>
+                            <p class="text-muted small mb-0">Avoid excessive nitrogen which can increase disease susceptibility.</p>
+                        </div>
+                    </div>
+                    <div class="prevention-item d-flex">
+                        <div class="prevention-icon me-3">
+                            <i class="bi bi-check-circle-fill text-success"></i>
+                        </div>
+                        <div>
+                            <h6 class="mb-1">Field Sanitation</h6>
+                            <p class="text-muted small mb-0">Remove infected plant debris and practice crop rotation.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="educational-card bg-white rounded-3 p-4 shadow-sm h-100">
+                <h5 class="mb-4 text-warning">
+                    <i class="bi bi-exclamation-triangle me-2"></i>Early Detection Signs
+                </h5>
+                <div class="detection-list">
+                    <div class="detection-item d-flex mb-3">
+                        <div class="detection-icon me-3">
+                            <i class="bi bi-eye-fill text-warning"></i>
+                        </div>
+                        <div>
+                            <h6 class="mb-1">Leaf Discoloration</h6>
+                            <p class="text-muted small mb-0">Look for yellowing, browning, or unusual spots on leaves.</p>
+                        </div>
+                    </div>
+                    <div class="detection-item d-flex mb-3">
+                        <div class="detection-icon me-3">
+                            <i class="bi bi-eye-fill text-warning"></i>
+                        </div>
+                        <div>
+                            <h6 class="mb-1">Abnormal Growth</h6>
+                            <p class="text-muted small mb-0">Watch for stunted growth or wilting plants.</p>
+                        </div>
+                    </div>
+                    <div class="detection-item d-flex mb-3">
+                        <div class="detection-icon me-3">
+                            <i class="bi bi-eye-fill text-warning"></i>
+                        </div>
+                        <div>
+                            <h6 class="mb-1">Lesion Patterns</h6>
+                            <p class="text-muted small mb-0">Note the shape, size, and color of lesions on leaves.</p>
+                        </div>
+                    </div>
+                    <div class="detection-item d-flex">
+                        <div class="detection-icon me-3">
+                            <i class="bi bi-eye-fill text-warning"></i>
+                        </div>
+                        <div>
+                            <h6 class="mb-1">Spread Pattern</h6>
+                            <p class="text-muted small mb-0">Monitor how quickly symptoms spread across the field.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="cta-section mb-5">
+    <div class="row">
+        <div class="col-12">
+            <div class="cta-card bg-success text-white rounded-3 p-5 text-center">
+                <h3 class="mb-3">Ready to Protect Your Crops?</h3>
+                <p class="mb-4 opacity-75">Upload an image now and get instant disease diagnosis with treatment recommendations.</p>
+                <a href="{% url 'classify_rice_disease' %}" class="btn btn-light text-success px-4 py-3">
+                    <i class="bi bi-search me-2"></i>Start Detection Now
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+/* Hero Section */
+.hero-badge {
+    animation: fadeInDown 1s ease;
+}
+
+.hero-section h1 {
+    background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* Stats Section */
+.stat-card {
+    padding: 1rem;
+}
+
+.stat-card h3 {
+    font-weight: 700;
+}
+
+/* Slider Section */
+.slider-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    position: relative;
+}
+
+.disease-slider {
+    display: flex;
+    gap: 1.5rem;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    padding: 1rem 0.5rem;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.disease-slider::-webkit-scrollbar {
+    display: none;
+}
+
+.slider-item {
+    flex: 0 0 280px;
+}
+
+.disease-slider-card {
+    transition: all 0.3s ease;
+    border: 1px solid #e9ecef !important;
+}
+
+.disease-slider-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1) !important;
+}
+
+.slider-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: white;
+    border: 1px solid #dee2e6;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 10;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.slider-nav:hover {
+    background: #28a745;
+    color: white;
+    border-color: #28a745;
+}
+
+.slider-prev {
+    left: -20px;
+}
+
+.slider-next {
+    right: -20px;
+}
+
+/* How It Works */
+.how-it-works-section {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+}
+
+.step-card {
+    position: relative;
+    padding: 2rem 1rem;
+}
+
+.step-number {
+    position: absolute;
+    top: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #28a745;
+    color: white;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 0.9rem;
+}
+
+.step-icon {
+    transition: transform 0.3s ease;
+}
+
+.step-card:hover .step-icon {
+    transform: scale(1.1);
+}
+
+/* Educational Section */
+.prevention-icon, .detection-icon {
+    flex-shrink: 0;
+    margin-top: 0.25rem;
+}
+
+/* CTA Section */
+.cta-card {
+    background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+    box-shadow: 0 10px 30px rgba(40, 167, 69, 0.3);
+}
+
+/* Animations */
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .slider-nav {
+        display: none;
+    }
+    
+    .disease-slider {
+        gap: 1rem;
+        padding: 0.5rem;
+    }
+    
+    .slider-item {
+        flex: 0 0 250px;
+    }
+    
+    .step-card {
+        padding: 1.5rem 0.5rem;
+    }
+    
+    .cta-card {
+        padding: 2rem 1.5rem !important;
+    }
+}
+</style>
+
+<script>
+let currentSlide = 0;
+
+function slideNext() {
+    const slider = document.querySelector('.disease-slider');
+    const items = document.querySelectorAll('.slider-item');
+    currentSlide = (currentSlide + 1) % items.length;
+    slider.scrollLeft = currentSlide * 300;
+}
+
+function slidePrev() {
+    const slider = document.querySelector('.disease-slider');
+    const items = document.querySelectorAll('.slider-item');
+    currentSlide = (currentSlide - 1 + items.length) % items.length;
+    slider.scrollLeft = currentSlide * 300;
+}
+
+// Auto-slide every 5 seconds
+setInterval(slideNext, 5000);
+</script>
+{% endblock %}

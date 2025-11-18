@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rice Disease Detection System</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="/static/css/styles.css">
+    <link rel="icon" type="image/x-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌾</text></svg>">
+    
+    <style>
+    /* Enhanced Base Styles */
+    .navbar {
+        backdrop-filter: blur(10px);
+        background: rgba(255, 255, 255, 0.95) !important;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+    }
+    
+    .navbar-brand {
+        font-weight: 700;
+        background: linear-gradient(135deg, #28a745, #20c997);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+    
+    .nav-link {
+        font-weight: 500;
+        transition: all 0.3s ease;
+        border-radius: 8px;
+        margin: 0 0.25rem;
+    }
+    
+    .nav-link:hover {
+        background: rgba(40, 167, 69, 0.1);
+        transform: translateY(-1px);
+    }
+    
+    .nav-link.active {
+        background: rgba(40, 167, 69, 0.15);
+        color: #28a745 !important;
+    }
+    
+    footer {
+        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%) !important;
+        border-top: 1px solid #dee2e6;
+    }
+    
+    /* Smooth scrolling */
+    html {
+        scroll-behavior: smooth;
+    }
+    
+    /* Loading animation */
+    .loading-spinner {
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        border: 2px solid #f3f3f3;
+        border-top: 2px solid #28a745;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+    }
+    
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+    
+    /* Back to top button */
+    .back-to-top {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background: #28a745;
+        color: white;
+        border: none;
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        opacity: 0;
+        transition: all 0.3s ease;
+        z-index: 1000;
+        box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
+    }
+    
+    .back-to-top.show {
+        opacity: 1;
+    }
+    
+    .back-to-top:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 6px 20px rgba(40, 167, 69, 0.4);
+    }
+    
+    /* Dark Mode Button */
+    .dark-mode-toggle {
+        position: fixed;
+        bottom: 80px;
+        right: 20px;
+        background: #6c757d;
+        color: white;
+        border: none;
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        opacity: 0;
+        transition: all 0.3s ease;
+        z-index: 1000;
+        box-shadow: 0 4px 15px rgba(108, 117, 125, 0.3);
+    }
+    
+    .dark-mode-toggle.show {
+        opacity: 1;
+    }
+    
+    .dark-mode-toggle:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 6px 20px rgba(108, 117, 125, 0.4);
+    }
+    
+    /* ========== COMPREHENSIVE DARK MODE STYLES ========== */
+body.dark-mode {
+    background-color: #1a1d23;
+    color: #e9ecef;
+}
+
+/* Navigation */
+body.dark-mode .navbar {
+    background: rgba(33, 37, 41, 0.95) !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+body.dark-mode .navbar-brand {
+    background: linear-gradient(135deg, #20c997, #0d6efd);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+body.dark-mode .nav-link {
+    color: #e9ecef !important;
+}
+
+body.dark-mode .nav-link:hover {
+    background: rgba(32, 201, 151, 0.15);
+}
+
+body.dark-mode .nav-link.active {
+    background: rgba(32, 201, 151, 0.2);
+    color: #20c997 !important;
+}
+
+body.dark-mode .navbar-toggler {
+    border-color: rgba(255, 255, 255, 0.1);
+    color: #e9ecef;
+}
+
+/* Footer */
+body.dark-mode footer {
+    background: linear-gradient(135deg, #2d3338 0%, #212529 100%) !important;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    color: #e9ecef;
+}
+
+/* Cards & Containers */
+body.dark-mode .card {
+    background-color: #2d3338;
+    border-color: rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+}
+
+body.dark-mode .card-header {
+    background-color: #343a40 !important;
+    border-bottom-color: rgba(255, 255, 255, 0.1) !important;
+    color: #ffffff !important;
+}
+
+/* Text Colors */
+body.dark-mode .text-muted {
+    color: #adb5bd !important;
+}
+
+body.dark-mode .text-dark {
+    color: #e9ecef !important;
+}
+
+body.dark-mode .text-success {
+    color: #20c997 !important;
+}
+
+body.dark-mode .text-primary {
+    color: #6ea8fe !important;
+}
+
+body.dark-mode .text-warning {
+    color: #ffd166 !important;
+}
+
+body.dark-mode .text-danger {
+    color: #f28b82 !important;
+}
+
+body.dark-mode .text-info {
+    color: #7ee2fa !important;
+}
+
+/* Background Colors */
+body.dark-mode .bg-white {
+    background-color: #2d3338 !important;
+}
+
+body.dark-mode .bg-light {
+    background-color: #343a40 !important;
+}
+
+body.dark-mode .bg-success {
+    background-color: #198754 !important;
+}
+
+body.dark-mode .bg-primary {
+    background-color: #0d6efd !important;
+}
+
+/* Borders */
+body.dark-mode .border,
+body.dark-mode .border-bottom,
+body.dark-mode .border-top,
+body.dark-mode .border-start,
+body.dark-mode .border-end {
+    border-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+body.dark-mode .border-success {
+    border-color: #198754 !important;
+}
+
+body.dark-mode .border-primary {
+    border-color: #0d6efd !important;
+}
+
+/* Shadows */
+body.dark-mode .shadow-sm {
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.4) !important;
+}
+
+/* Alerts */
+body.dark-mode .alert-success {
+    background-color: #155724;
+    color: #d4edda;
+    border-left-color: #28a745;
+}
+
+body.dark-mode .alert-warning {
+    background-color: #856404;
+    color: #fff3cd;
+    border-left-color: #ffc107;
+}
+
+body.dark-mode .alert-danger {
+    background-color: #721c24;
+    color: #f8d7da;
+    border-left-color: #dc3545;
+}
+
+body.dark-mode .alert-info {
+    background-color: #055160;
+    color: #cff4fc;
+    border-left-color: #0dcaf0;
+}
+
+/* Buttons */
+body.dark-mode .btn-outline-primary {
+    color: #6ea8fe;
+    border-color: #6ea8fe;
+}
+
+body.dark-mode .btn-outline-primary:hover {
+    background-color: #6ea8fe;
+    color: #1a1d23;
+}
+
+body.dark-mode .btn-outline-success {
+    color: #20c997;
+    border-color: #20c997;
+}
+
+body.dark-mode .btn-outline-success:hover {
+    background-color: #20c997;
+    color: #1a1d23;
+}
+
+body.dark-mode .btn-light {
+    background-color: #495057;
+    border-color: #495057;
+    color: #e9ecef;
+}
+
+body.dark-mode .btn-light:hover {
+    background-color: #5a6268;
+    border-color: #5a6268;
+    color: #e9ecef;
+}
+
+/* Form Controls - FIX FOR LOGIN/REGISTER PAGES */
+body.dark-mode .form-control {
+    background-color: #343a40 !important;
+    border-color: #495057 !important;
+    color: #e9ecef !important;
+}
+
+body.dark-mode .form-control:focus {
+    background-color: #343a40 !important;
+    border-color: #0d6efd !important;
+    color: #e9ecef !important;
+    box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25) !important;
+}
+
+body.dark-mode .form-label {
+    color: #e9ecef !important;
+}
+
+body.dark-mode .form-text {
+    color: #adb5bd !important;
+}
+
+/* Progress Bars */
+body.dark-mode .progress {
+    background-color: #343a40;
+}
+
+/* Badges */
+body.dark-mode .badge.bg-light {
+    background-color: #495057 !important;
+    color: #e9ecef !important;
+    border-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+body.dark-mode .badge.bg-success {
+    background-color: #198754 !important;
+}
+
+/* Upload Area */
+body.dark-mode .upload-area {
+    background: #343a40;
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+body.dark-mode .upload-area:hover {
+    background: rgba(32, 201, 151, 0.05);
+    border-color: #20c997;
+}
+
+/* Section Cards */
+body.dark-mode .section-card {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Background Opacity Utilities */
+body.dark-mode .bg-success.bg-opacity-10 {
+    background-color: rgba(40, 167, 69, 0.15) !important;
+}
+
+body.dark-mode .bg-primary.bg-opacity-10 {
+    background-color: rgba(13, 110, 253, 0.15) !important;
+}
+
+body.dark-mode .bg-light.bg-opacity-10 {
+    background-color: rgba(108, 117, 125, 0.15) !important;
+}
+
+/* Disease Badges */
+body.dark-mode .disease-badge {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.2);
+    color: #e9ecef;
+}
+
+/* Hero Section */
+body.dark-mode .hero-section h1 {
+    background: linear-gradient(135deg, #20c997 0%, #0d6efd 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* Stats Section */
+body.dark-mode .stats-section {
+    background: #2d3338;
+}
+
+/* How It Works Section */
+body.dark-mode .how-it-works-section {
+    background: linear-gradient(135deg, #2d3338 0%, #343a40 100%);
+}
+
+/* Educational Section */
+body.dark-mode .educational-section {
+    background: rgba(32, 201, 151, 0.1);
+}
+
+body.dark-mode .educational-card {
+    background: #2d3338 !important;
+}
+
+/* CTA Section */
+body.dark-mode .cta-card {
+    background: linear-gradient(135deg, #198754 0%, #20c997 100%);
+}
+
+/* Slider Navigation */
+body.dark-mode .slider-nav {
+    background: #2d3338;
+    border-color: rgba(255, 255, 255, 0.1);
+    color: #e9ecef;
+}
+
+body.dark-mode .slider-nav:hover {
+    background: #20c997;
+    color: #1a1d23;
+    border-color: #20c997;
+}
+
+/* Disease Slider Cards */
+body.dark-mode .disease-slider-card {
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+/* Feature Cards */
+body.dark-mode .feature-card {
+    background: #2d3338;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+/* Result Cards */
+body.dark-mode .result-main-card {
+    background: #2d3338;
+}
+
+body.dark-mode .image-badge {
+    background: rgba(45, 51, 56, 0.95);
+    color: #e9ecef;
+}
+
+/* Treatment Cards */
+body.dark-mode .treatment-card {
+    background: #2d3338;
+}
+
+body.dark-mode .treatment-card.organic {
+    border-color: #198754 !important;
+}
+
+body.dark-mode .treatment-card.chemical {
+    border-color: #ffc107 !important;
+}
+
+/* List Items */
+body.dark-mode .symptom-item:hover,
+body.dark-mode .cause-item:hover,
+body.dark-mode .prevention-item:hover,
+body.dark-mode .control-item:hover,
+body.dark-mode .health-item:hover,
+body.dark-mode .maintenance-item:hover,
+body.dark-mode .monitoring-item:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+body.dark-mode .cause-item.bg-light {
+    background-color: #343a40 !important;
+}
+
+/* Info Cards */
+body.dark-mode .info-card {
+    background: #2d3338;
+    border-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Tips and Avoid Lists */
+body.dark-mode .tips-list .bi-check-lg {
+    color: #20c997;
+}
+
+body.dark-mode .avoid-list .bi-x-lg {
+    color: #f28b82;
+}
+
+/* Header Icons */
+body.dark-mode .header-icon,
+body.dark-mode .result-header-icon {
+    background: linear-gradient(135deg, #20c997, #0d6efd);
+}
+
+/* Step Numbers */
+body.dark-mode .step-number {
+    background: linear-gradient(135deg, #20c997, #0d6efd);
+}
+
+/* Preview Header */
+body.dark-mode .preview-header {
+    background: rgba(32, 201, 151, 0.1);
+}
+
+/* Confidence Display */
+body.dark-mode .confidence-value {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Progress Bars in Results */
+body.dark-mode .confidence-row .text-success {
+    color: #20c997 !important;
+}
+
+body.dark-mode .confidence-row .text-muted {
+    color: #adb5bd !important;
+}
+
+/* Health and Maintenance Sections */
+body.dark-mode .health-item.bg-success.bg-opacity-10 {
+    background-color: rgba(32, 201, 151, 0.15) !important;
+}
+
+body.dark-mode .maintenance-item.bg-primary.bg-opacity-10 {
+    background-color: rgba(13, 110, 253, 0.15) !important;
+}
+
+/* Result page specific dark mode fixes */
+body.dark-mode .text-dark {
+    color: #e9ecef !important;
+}
+
+body.dark-mode .card-header {
+    background-color: #343a40 !important;
+    color: #e9ecef !important;
+}
+
+body.dark-mode .section-title {
+    color: #e9ecef !important;
+}
+
+body.dark-mode .section-card {
+    background: rgba(255, 255, 255, 0.05) !important;
+    border-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+body.dark-mode .treatment-details .text-muted {
+    color: #adb5bd !important;
+}
+
+body.dark-mode .detail-item .text-muted {
+    color: #adb5bd !important;
+}
+
+/* Confidence rows */
+body.dark-mode .confidence-value {
+    background: rgba(255, 255, 255, 0.1) !important;
+    border-color: rgba(255, 255, 255, 0.2) !important;
+}
+
+/* Treatment cards */
+body.dark-mode .treatment-card {
+    background: #2d3338 !important;
+}
+
+body.dark-mode .treatment-header {
+    border-bottom-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+/* Login/Register Specific Fixes */
+body.dark-mode .card-body {
+    color: #e9ecef !important;
+}
+
+body.dark-mode .card-body p {
+    color: #e9ecef !important;
+}
+
+body.dark-mode .card-body h1,
+body.dark-mode .card-body h2,
+body.dark-mode .card-body h3,
+body.dark-mode .card-body h4,
+body.dark-mode .card-body h5,
+body.dark-mode .card-body h6 {
+    color: #e9ecef !important;
+}
+
+body.dark-mode .form-control::placeholder {
+    color: #adb5bd !important;
+}
+
+body.dark-mode .text-danger.small {
+    color: #f28b82 !important;
+}
+
+/* Links in login/register forms */
+body.dark-mode .text-decoration-none {
+    color: #20c997 !important;
+}
+
+body.dark-mode .text-decoration-none:hover {
+    color: #1ba87e !important;
+}
+
+/* Demo account info box */
+body.dark-mode .alert-info {
+    background-color: #055160 !important;
+    color: #cff4fc !important;
+    border-left-color: #0dcaf0 !important;
+}
+    </style>
+</head>
+<body class="d-flex flex-column min-vh-100">
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light sticky-top">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="{% url 'home' %}">
+                <i class="bi bi-flower1 me-2"></i>Rice Disease Detector
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.path == '/' %}active{% endif %}" href="{% url 'home' %}">
+                            <i class="bi bi-house me-1"></i>Home
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if 'classify' in request.path %}active{% endif %}" href="{% url 'classify_rice_disease' %}">
+                            <i class="bi bi-search me-1"></i>Detect Disease
+                        </a>
+                    </li>
+                    {% if user.is_authenticated %}
+                    <li class="nav-item">
+                        <a class="nav-link {% if 'history' in request.path %}active{% endif %}" href="{% url 'classification_history' %}">
+                            <i class="bi bi-clock-history me-1"></i>History
+                        </a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                            <i class="bi bi-person-circle me-1"></i>{{ user.username }}
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="{% url 'classification_history' %}">
+                                <i class="bi bi-clock-history me-2"></i>Classification History
+                            </a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="{% url 'logout' %}">
+                                <i class="bi bi-box-arrow-right me-2"></i>Logout
+                            </a></li>
+                        </ul>
+                    </li>
+                    {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'login' %}">
+                            <i class="bi bi-box-arrow-in-right me-1"></i>Login
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="btn btn-success ms-2" href="{% url 'register' %}">
+                            <i class="bi bi-person-plus me-1"></i>Sign Up
+                        </a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="container my-4 flex-grow-1">
+        {% block content %}
+        <!-- Content will be injected here -->
+        {% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="py-4 mt-auto">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <h5 class="mb-2 text-success fw-bold">
+                        <i class="bi bi-flower1 me-2"></i>Rice Disease Detection System
+                    </h5>
+                    <p class="mb-0 text-muted">AI-powered solution for rice farmers to identify and manage crop diseases effectively.</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <p class="mb-1">&copy; 2024 Rice Disease Detection System. All rights reserved.</p>
+                    <small class="text-muted">Built with Django & TensorFlow • Empowering Farmers Worldwide</small>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <button class="back-to-top" id="backToTop">
+        <i class="bi bi-chevron-up"></i>
+    </button>
+
+    <!-- Dark Mode Toggle Button -->
+    <button class="dark-mode-toggle" id="darkModeToggle">
+        <i class="bi bi-moon"></i>
+    </button>
+
+    <!-- Bootstrap 5 JS with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/static/js/script.js"></script>
+    
+    <!-- Enhanced Base Script -->
+    <script>
+    // Back to top functionality
+    const backToTopButton = document.getElementById('backToTop');
+    const darkModeToggle = document.getElementById('darkModeToggle');
+    
+    window.addEventListener('scroll', () => {
+        if (window.pageYOffset > 300) {
+            backToTopButton.classList.add('show');
+            darkModeToggle.classList.add('show');
+        } else {
+            backToTopButton.classList.remove('show');
+            darkModeToggle.classList.remove('show');
+        }
+    });
+    
+    backToTopButton.addEventListener('click', () => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    });
+    
+    // Navbar scroll effect
+    window.addEventListener('scroll', () => {
+        const navbar = document.querySelector('.navbar');
+        if (window.pageYOffset > 100) {
+            navbar.style.boxShadow = '0 2px 20px rgba(0,0,0,0.1)';
+            if (document.body.classList.contains('dark-mode')) {
+                navbar.style.background = 'rgba(33, 37, 41, 0.98) !important';
+            } else {
+                navbar.style.background = 'rgba(255, 255, 255, 0.98) !important';
+            }
+        } else {
+            navbar.style.boxShadow = '0 2px 10px rgba(0,0,0,0.1)';
+            if (document.body.classList.contains('dark-mode')) {
+                navbar.style.background = 'rgba(33, 37, 41, 0.95) !important';
+            } else {
+                navbar.style.background = 'rgba(255, 255, 255, 0.95) !important';
+            }
+        }
+    });
+    
+    // Dark Mode Toggle Functionality
+    const darkModeIcon = darkModeToggle.querySelector('i');
+    
+    // Check for saved dark mode preference
+    const isDarkMode = localStorage.getItem('darkMode') === 'true';
+    
+    // Apply dark mode if previously enabled
+    if (isDarkMode) {
+        document.body.classList.add('dark-mode');
+        darkModeIcon.classList.remove('bi-moon');
+        darkModeIcon.classList.add('bi-sun');
+    }
+    
+    darkModeToggle.addEventListener('click', () => {
+        document.body.classList.toggle('dark-mode');
+        
+        // Update icon
+        if (document.body.classList.contains('dark-mode')) {
+            darkModeIcon.classList.remove('bi-moon');
+            darkModeIcon.classList.add('bi-sun');
+            localStorage.setItem('darkMode', 'true');
+        } else {
+            darkModeIcon.classList.remove('bi-sun');
+            darkModeIcon.classList.add('bi-moon');
+            localStorage.setItem('darkMode', 'false');
+        }
+        
+        // Update navbar background
+        const navbar = document.querySelector('.navbar');
+        if (window.pageYOffset > 100) {
+            if (document.body.classList.contains('dark-mode')) {
+                navbar.style.background = 'rgba(33, 37, 41, 0.98) !important';
+            } else {
+                navbar.style.background = 'rgba(255, 255, 255, 0.98) !important';
+            }
+        }
+    });
+    
+    // Fallback for missing static files
+    if (typeof initializeImageUpload === 'undefined') {
+        console.log('Static JS file not loaded, using inline fallback');
+        // Inline fallback will handle basic functionality
+    }
+    </script>
+</body>
+</html>
