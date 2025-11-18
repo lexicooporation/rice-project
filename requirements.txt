@@ -8,4 +8,5 @@ numpy==1.24.3
 gunicorn==21.2.0
 psycopg2-binary==2.9.7
 h5py==3.9.0
-protobuf==4.24.4
+protobuf==5.28.0
+
